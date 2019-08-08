@@ -95,6 +95,37 @@ func getBuilds(projectNames []string) {
 	return
 }
 
+func renameBuilds(projectNames []string) {
+	for _, projectName := range projectNames {
+		data, klocworkUrl := formRequest("builds")
+		data.Set("action", "builds")
+		data.Set("project", projectName)
+
+		fmt.Println("Retrieving builds for project " + projectName)
+
+		//Send it
+		_, body := sendRequest(klocworkUrl, data)
+
+		//Get the list of builds
+		buildNames := getNames(body, "builds")
+		if buildNames != nil {
+			for _, buildName := range buildNames {
+				data.Set("action", "update_build")
+				data.Set("name", buildName)
+				data.Set("new_name", (buildName + ".old"))
+
+				fmt.Println("Project: " + projectName)
+				fmt.Println("Renaming build " + buildName + " to new name: " + (buildName + ".old"))
+
+				_, body := sendRequest(klocworkUrl, data)
+				if body != nil {
+				}
+			}
+		}
+	}
+
+}
+
 /*
 Receives some CLI-based request requiring data from the Klocwork server.
 Should answer this request, at the moment only returns project names on the server.
@@ -113,10 +144,19 @@ func ReceiveRequest(verb, command string, args []string) []string {
 			projectNames := getNames(body, "projects")
 			getBuilds(projectNames)
 		}
+	case "rename":
+		projectNames := getNames(body, "projects")
+		switch command {
+		case "builds":
+			if projectNames != nil {
+				renameBuilds(projectNames)
+			}
+		//TODO
+		case "projects":
+			fmt.Println("Renaming projects not yet implemented.")
+		}
 	}
-
 	return returnValue
-
 }
 
 func formRequest(command string) (url.Values, string) {

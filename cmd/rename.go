@@ -1,5 +1,5 @@
 /*
-Copyright © 2019 Ben Marsden ben.marsden@emenda.se
+Copyright © 2019 NAME HERE <EMAIL ADDRESS>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,34 +17,44 @@ package cmd
 
 import (
 	"fmt"
-
-	"klocctl/config"
+	"klocctl/kwservertool"
+	"os"
 
 	"github.com/spf13/cobra"
 )
 
-// configCmd represents the config command
-var configCmd = &cobra.Command{
-	Use:   "config",
-	Short: "Configure the klocwork server if not using a config file.",
-	Long:  `Configure the klocwork server if not using a config file.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("config called")
-		config.Print()
+// renameCmd represents the rename command
+var renameCmd = &cobra.Command{
+	Use:   "rename",
+	Short: "A brief description of your command",
+	Long: `A longer description that spans multiple lines and likely contains examples
+and usage of using your command. For example:
 
+Cobra is a CLI library for Go that empowers applications.
+This application is a tool to generate the needed files
+to quickly create a Cobra application.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("rename called")
+		if len(args) < 1 {
+			fmt.Printf("klocctl: \"rename\" requires a minimum of 1 argument\n")
+			os.Exit(1)
+		}
+		if args[0] == "builds" {
+			kwservertool.ReceiveRequest("rename", "builds", nil)
+		}
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(configCmd)
+	rootCmd.AddCommand(renameCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// configCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// renameCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// configCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// renameCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
