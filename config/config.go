@@ -57,7 +57,7 @@ func Print() {
 	cfg := values()
 	fmt.Println("KW Configuration:")
 	fmt.Printf("%v \n", cfg.Klocwork)
-	kwservertool.Request()
+	kwservertool.ReceiveRequest("get", "builds", nil)
 
 }
 

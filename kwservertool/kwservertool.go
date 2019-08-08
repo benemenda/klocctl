@@ -70,6 +70,77 @@ func (bl *Build) GetName() string {
 	return bl.Name
 }
 
+////
+type Vertex struct {
+	Lat, Long float64
+}
+
+////
+func getBuilds(projectNames []string) {
+
+	for _, projectName := range projectNames {
+		data, klocworkUrl := formRequest("builds")
+		//data.Set("action", "builds")
+		data.Set("project", projectName)
+		fmt.Println("Retrieving builds for project " + projectName)
+		//Send it
+		_, body := sendRequest(klocworkUrl, data)
+		buildNames := getNames(body, "builds")
+		fmt.Println("Project: " + projectName)
+		fmt.Println("Builds: ")
+		for _, buildName := range buildNames {
+			fmt.Println(buildName)
+		}
+	}
+	return
+}
+
+/*
+Receives some CLI-based request requiring data from the Klocwork server.
+Should answer this request, at the moment only returns project names on the server.
+*/
+func ReceiveRequest(verb, command string, args []string) []string {
+	var returnValue []string
+	data, klocworkUrl := formRequest("projects")
+	_, body := sendRequest(klocworkUrl, data)
+
+	switch verb {
+	case "get":
+		switch command {
+		case "projects":
+			returnValue = getNames(body, "projects")
+		case "builds":
+			projectNames := getNames(body, "projects")
+			getBuilds(projectNames)
+		}
+	}
+
+	return returnValue
+
+}
+
+func formRequest(command string) (url.Values, string) {
+	//Form the URL
+	protocol, host, port, user, ltoken := viper.GetString("klocctl.protocol"),
+		viper.GetString("klocctl.host"),
+		viper.GetString("klocctl.port"),
+		viper.GetString("klocctl.user"),
+		viper.GetString("klocctl.ltoken")
+
+	fmt.Printf("%v", host)
+	var klocworkUrl = protocol + "://" + host + ":" + port + "/review/api"
+
+	//Create the request
+	data := url.Values{}
+	data.Set("action", command)
+	// data.Set("user", "<USERNAME>")
+	// data.Set("ltoken", "<LTOKEN>")
+	data.Set("user", user)
+	data.Set("ltoken", ltoken)
+
+	return data, klocworkUrl
+}
+
 /*
 Request send request for data to the KW server
 */

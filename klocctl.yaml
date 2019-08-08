@@ -2,4 +2,4 @@ klocctl:
     port: 8090
     host: 192.168.0.25
     protocol: http
-    user: wrong
+    user: ben
