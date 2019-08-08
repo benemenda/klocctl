@@ -1,0 +1,6 @@
+klocctl:
+    port: 8080
+    host: localhost
+    protocol: http
+    #user: <klocwork-user>
+    #ltoken: <klocwork-ltoken>

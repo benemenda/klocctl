@@ -75,7 +75,12 @@ Request send request for data to the KW server
 */
 func Request() {
 	//Form the URL
-	protocol, host, port := viper.GetString("klocctl.protocol"), viper.GetString("klocctl.host"), viper.GetString("klocctl.port")
+	protocol, host, port, user, ltoken := viper.GetString("klocctl.protocol"),
+		viper.GetString("klocctl.host"),
+		viper.GetString("klocctl.port"),
+		viper.GetString("klocctl.user"),
+		viper.GetString("klocctl.ltoken")
+
 	fmt.Printf("%v", host)
 	var klocworkUrl = protocol + "://" + host + ":" + port + "/review/api"
 
@@ -84,8 +89,8 @@ func Request() {
 	data.Set("action", "projects")
 	// data.Set("user", "<USERNAME>")
 	// data.Set("ltoken", "<LTOKEN>")
-	data.Set("user", "ben")
-	data.Set("ltoken", "<LTOKEN>")
+	data.Set("user", user)
+	data.Set("ltoken", ltoken)
 
 	//Send it
 	_, body := sendRequest(klocworkUrl, data)

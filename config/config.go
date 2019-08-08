@@ -13,12 +13,16 @@ import (
 var port string
 var host string
 var protocol string
+var user string
+var ltoken string
 var url string
 
 type klocworkConfig struct {
 	host     string
 	port     string
 	protocol string
+	user     string
+	ltoken   string
 }
 
 type config struct {
@@ -41,8 +45,10 @@ func values() config {
 	return config{
 		Klocwork: klocworkConfig{
 			host:     viper.GetString("klocctl.host"),
-			port:     "8080",
-			protocol: "http",
+			port:     viper.GetString("klocctl.port"),
+			protocol: viper.GetString("klocctl.protocol"),
+			user:     viper.GetString("klocctl.user"),
+			ltoken:   viper.GetString("klocctl.ltoken"),
 		},
 	}
 }
@@ -94,5 +100,7 @@ func Config() {
 	host = viper.GetString("klocctl.host")
 	port = viper.GetString("klocctl.port")
 	protocol = viper.GetString("klocctl.protocol")
+	user = viper.GetString("klocctl.user")
+	ltoken = viper.GetString("klocctl.ltoken")
 	url = fmtURL(host, port, protocol)
 }
