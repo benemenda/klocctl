@@ -17,7 +17,7 @@ package cmd
 
 import (
 	"fmt"
-	"klocctl/kwservertool"
+	"klocctl/kw"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -39,14 +39,14 @@ to quickly create a Cobra application.`,
 			os.Exit(1)
 		}
 		if args[0] == "projects" {
-			kwservertool.ReceiveRequest("get", "projects", nil)
+			kw.ReceiveRequest("get", "projects", nil)
 		}
 		if args[0] == "builds" {
 			projects := args[1:]
-			kwservertool.ReceiveRequest("get", "builds", projects)
+			kw.ReceiveRequest("get", "builds", projects)
 		}
 		if args[0] == "issues" {
-			kwservertool.ReceiveRequest("get", "issues", args[1:])
+			kw.ReceiveRequest("get", "issues", args[1:])
 		}
 
 	},

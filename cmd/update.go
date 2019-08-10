@@ -17,7 +17,7 @@ package cmd
 
 import (
 	"fmt"
-	"klocctl/kwservertool"
+	"klocctl/kw"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -47,7 +47,7 @@ var updateCmd = &cobra.Command{
 				fmt.Printf("klocctl: \"update status\" requires a minimum of [project] [id] [status]'\n")
 				os.Exit(1)
 			}
-			kwservertool.ReceiveRequest("update", "status", args[1:])
+			kw.ReceiveRequest("update", "status", args[1:])
 		}
 	},
 }

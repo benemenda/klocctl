@@ -7,7 +7,7 @@ import (
 	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/viper"
 
-	"klocctl/kwservertool"
+	"klocctl/kw"
 )
 
 var port string
@@ -57,7 +57,7 @@ func Print() {
 	cfg := values()
 	fmt.Println("KW Configuration:")
 	fmt.Printf("%v \n", cfg.Klocwork)
-	kwservertool.ReceiveRequest("get", "builds", nil)
+	kw.ReceiveRequest("get", "builds", nil)
 
 }
 

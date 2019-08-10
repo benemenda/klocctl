@@ -17,7 +17,7 @@ package cmd
 
 import (
 	"fmt"
-	"klocctl/kwservertool"
+	"klocctl/kw"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -35,7 +35,7 @@ var renameCmd = &cobra.Command{
 			os.Exit(1)
 		}
 		if args[0] == "builds" {
-			kwservertool.ReceiveRequest("rename", "builds", nil)
+			kw.ReceiveRequest("rename", "builds", nil)
 		}
 	},
 }
