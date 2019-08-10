@@ -66,27 +66,23 @@ func (bl *Build) GetName() string {
 	return bl.Name
 }
 
-////
 type Vertex struct {
 	Lat, Long float64
 }
 
-////
-
 /*
 Receives some CLI-based request requiring data from the Klocwork server.
-Should answer this request, at the moment only returns project names on the server.
 */
 func ReceiveRequest(verb, command string, args []string) []string {
 	var returnValue []string
-	data, klocworkUrl := formBaseRequest("projects")
-	_, body := sendRequest(klocworkUrl, data)
+	data, klocworkURL := formBaseRequest("projects")
+	_, body := sendRequest(klocworkURL, data)
 
 	switch verb {
 	case "get":
 		switch command {
 		case "projects":
-			returnValue = getProjects(body, "projects")
+			getProjects(body, "projects")
 		case "builds":
 			getBuilds(args)
 		case "issues":
@@ -99,9 +95,6 @@ func ReceiveRequest(verb, command string, args []string) []string {
 			if projectNames != nil {
 				renameBuilds(projectNames)
 			}
-		//TODO
-		case "projects":
-			fmt.Println("Renaming projects not yet implemented.")
 		}
 	case "update":
 		switch command {
@@ -127,7 +120,7 @@ func formBaseRequest(command string) (url.Values, string) {
 		viper.GetString("klocctl.ltoken")
 
 	fmt.Printf("%v", host)
-	var klocworkUrl = protocol + "://" + host + ":" + port + "/review/api"
+	var klocworkURL = protocol + "://" + host + ":" + port + "/review/api"
 
 	//Create the request
 	data := url.Values{}
@@ -137,7 +130,7 @@ func formBaseRequest(command string) (url.Values, string) {
 	data.Set("user", user)
 	data.Set("ltoken", ltoken)
 
-	return data, klocworkUrl
+	return data, klocworkURL
 }
 
 //Internal function to send a request to the Klocwork server
