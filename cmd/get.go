@@ -18,10 +18,11 @@ package cmd
 import (
 	"fmt"
 	"klocctl/kw"
-	"os"
 
 	"github.com/spf13/cobra"
 )
+
+var queryString string
 
 // getCmd represents the get command
 var getCmd = &cobra.Command{
@@ -33,27 +34,46 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
+	Args: cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) < 1 {
-			fmt.Printf("klocctl: \"get\" requires a minimum of 1 argument\n")
-			os.Exit(1)
-		}
-		if args[0] == "projects" {
-			kw.ReceiveRequest("get", "projects", nil)
-		}
-		if args[0] == "builds" {
-			projects := args[1:]
-			kw.ReceiveRequest("get", "builds", projects)
-		}
-		if args[0] == "issues" {
-			kw.ReceiveRequest("get", "issues", args[1:])
-		}
+	},
+}
 
+var cmdProjects = &cobra.Command{
+	Use:   "projects",
+	Short: "get the list of available projects",
+	Long:  `get the list of available projects`,
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Printf("get projects called")
+		kw.ReceiveRequest("get", "projects", args)
+	},
+}
+var cmdBuilds = &cobra.Command{
+	Use:   "builds [project1, project2, ..., projectN]",
+	Short: "get the list of builds for specified projects",
+	Long:  `get the list of builds for specified projects`,
+	Args:  cobra.MinimumNArgs(1),
+	Run: func(cmd *cobra.Command, args []string) {
+		projects := args
+		fmt.Printf("get builds called")
+		kw.ReceiveRequest("get", "builds", projects)
+	},
+}
+var cmdIssues = &cobra.Command{
+	Use:   "issues [project] (query)",
+	Short: "get the list of issues for a specified klocwork project",
+	Long:  `get the list of issues for a specified klocwork project`,
+	Args:  cobra.MinimumNArgs(1),
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Printf("get issues called")
+		kw.ReceiveRequest("get", "issues", args)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(getCmd)
+	getCmd.AddCommand(cmdProjects, cmdBuilds, cmdIssues)
+	//cmdIssues.PersistentFlags().StringVarP(&queryString, "query", "q", "", "search query to filter issues by")
 
 	// Here you will define your flags and configuration settings.
 

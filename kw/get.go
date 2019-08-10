@@ -89,14 +89,16 @@ summary
 include summary record to output stream
 */
 func getIssues(args []string) {
-	data, klocworkURL := formBaseRequest("issues")
-	project := args[1]
-	query := args[2]
+	data, klocworkURL := formBaseRequest("search")
+	project := args[0]
 	data.Set("project", project)
-	data.Set("query", query)
-
-	fmt.Println("Retrieving issues for project " + project)
-
+	if len(args) > 1 {
+		query := args[1]
+		data.Set("query", query)
+		fmt.Println("Retrieving issues for project " + project + " matching search query " + data.Get("query"))
+	} else {
+		fmt.Println("Retrieving all issues for project " + project)
+	}
 	//Send it
 	sendRequest(klocworkURL, data)
 }
