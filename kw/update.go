@@ -19,11 +19,11 @@ new bug tracker id to set
 ./klocwork update status [project] [ids] [status] [comment] [owner]
 */
 func updateStatus(args []string) {
-	data, klocworkUrl := formBaseRequest("update_status")
+	data, klocworkURL := formBaseRequest("update_status")
 	data.Set("project", args[0])
 	data.Set("ids", args[1])
 	data.Set("status", args[2])
 
-	sendRequest(klocworkUrl, data)
+	sendRequest(klocworkURL, data)
 
 }

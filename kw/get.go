@@ -56,12 +56,12 @@ func getProjects(aJSONResponse []byte, aType string) []string {
 func getBuilds(projectNames []string) {
 
 	for _, projectName := range projectNames {
-		data, klocworkUrl := formBaseRequest("builds")
+		data, klocworkURL := formBaseRequest("builds")
 		//data.Set("action", "builds")
 		data.Set("project", projectName)
 		fmt.Println("Retrieving builds for project " + projectName)
 		//Send it
-		_, body := sendRequest(klocworkUrl, data)
+		_, body := sendRequest(klocworkURL, data)
 		buildNames := getProjects(body, "builds")
 		fmt.Println("Project: " + projectName)
 		fmt.Println("Builds: ")
@@ -89,7 +89,7 @@ summary
 include summary record to output stream
 */
 func getIssues(args []string) {
-	data, klocworkUrl := formBaseRequest("issues")
+	data, klocworkURL := formBaseRequest("issues")
 	project := args[1]
 	query := args[2]
 	data.Set("project", project)
@@ -98,5 +98,5 @@ func getIssues(args []string) {
 	fmt.Println("Retrieving issues for project " + project)
 
 	//Send it
-	sendRequest(klocworkUrl, data)
+	sendRequest(klocworkURL, data)
 }
