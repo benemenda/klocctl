@@ -42,7 +42,11 @@ to quickly create a Cobra application.`,
 			kwservertool.ReceiveRequest("get", "projects", nil)
 		}
 		if args[0] == "builds" {
-			kwservertool.ReceiveRequest("get", "builds", nil)
+			projects := args[1:]
+			kwservertool.ReceiveRequest("get", "builds", projects)
+		}
+		if args[0] == "issues" {
+			kwservertool.ReceiveRequest("get", "issues", args[1:])
 		}
 
 	},

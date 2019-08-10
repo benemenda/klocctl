@@ -95,6 +95,35 @@ func getBuilds(projectNames []string) {
 	return
 }
 
+/*
+Implements:
+search
+Retrieve the list of detected issues.
+Example: curl --data "action=search&user=myself&project=my_project&query=file:MyFile.c" http://127.0.0.1:8090/review/api
+project*
+project name
+query
+search query, such as narrowing by file (for example, 'file:MyFile.c')
+view
+view name
+limit
+search result limit
+summary
+include summary record to output stream
+*/
+func getIssues(args []string) {
+	data, klocworkUrl := formRequest("issues")
+	project := args[1]
+	query := args[2]
+	data.Set("project", project)
+	data.Set("query", query)
+
+	fmt.Println("Retrieving issues for project " + project)
+
+	//Send it
+	sendRequest(klocworkUrl, data)
+}
+
 func renameBuilds(projectNames []string) {
 	for _, projectName := range projectNames {
 		data, klocworkUrl := formRequest("builds")
@@ -127,6 +156,34 @@ func renameBuilds(projectNames []string) {
 }
 
 /*
+Change the status, owner, and comment, or alternatively set the bug tracker id of issues.
+Example: curl --data "action=update_status&user=myself&project=my_project&ids=ids_list&status=new_status&comment=new_comment&owner=new_owner" http://127.0.0.1:8090/review/api
+project*
+project name
+ids*
+comma seperated list of ids to change
+status
+new status to set
+comment
+new comment to set
+owner
+new owner to set
+bug_tracker_id
+new bug tracker id to set
+
+./klocwork update status [project] [ids] [status] [comment] [owner]
+*/
+func updateStatus(args []string) {
+	data, klocworkUrl := formRequest("update_status")
+	data.Set("project", args[0])
+	data.Set("ids", args[1])
+	data.Set("status", args[2])
+
+	sendRequest(klocworkUrl, data)
+
+}
+
+/*
 Receives some CLI-based request requiring data from the Klocwork server.
 Should answer this request, at the moment only returns project names on the server.
 */
@@ -141,8 +198,11 @@ func ReceiveRequest(verb, command string, args []string) []string {
 		case "projects":
 			returnValue = getNames(body, "projects")
 		case "builds":
-			projectNames := getNames(body, "projects")
-			getBuilds(projectNames)
+			// projectNames := getNames(body, "projects")
+			// getBuilds(projectNames)
+			getBuilds(args)
+		case "issues":
+			getIssues(args)
 		}
 	case "rename":
 		projectNames := getNames(body, "projects")
@@ -154,6 +214,17 @@ func ReceiveRequest(verb, command string, args []string) []string {
 		//TODO
 		case "projects":
 			fmt.Println("Renaming projects not yet implemented.")
+		}
+	case "update":
+		switch command {
+		case "status":
+			projectNames := getNames(body, "projects")
+			for _, proj := range projectNames {
+				//valid project so try to update status
+				if args[0] == proj {
+					updateStatus(args)
+				}
+			}
 		}
 	}
 	return returnValue
