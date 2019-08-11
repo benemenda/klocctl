@@ -3,6 +3,7 @@
 [WIP!] Klocctl packages the Klocwork API into a more friendly CLI using the popular open-source Go libraries Cobra and Viper.
 
 [![Build Status](https://travis-ci.org/benemenda/klocctl.svg?branch=master)](https://travis-ci.org/benemenda/klocctl)
+[![Go Report Card](https://goreportcard.com/badge/github.com/benemenda/klocctl)](https://goreportcard.com/report/github.com/benemenda/klocctl)
 
 # Build:
 
