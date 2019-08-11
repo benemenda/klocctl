@@ -1,7 +1,10 @@
+# klocctl
+
+[WIP!] Klocctl packages the Klocwork API into a more friendly CLI using the popular open-source Go libraries Cobra and Viper.
+
 [![Build Status](https://travis-ci.org/benemenda/klocctl.svg?branch=master)](https://travis-ci.org/benemenda/klocctl)
 
-# klocctl
-Build:
+##Build:
 
 make build
 
@@ -13,7 +16,7 @@ Usage:
 
 ./klocctl -h
 
-Contributing:
+##Contributing:
 
 klocctl's CLI utlises the open-source spf13 projects cobra and viper, so documentation on extending its API can be readily learned there.
 
