@@ -7,7 +7,7 @@ import (
 	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/viper"
 
-	"klocctl/kw"
+	"github.com/benemenda/klocctl/kw"
 )
 
 var port string

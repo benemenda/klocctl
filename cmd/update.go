@@ -17,7 +17,7 @@ package cmd
 
 import (
 	"fmt"
-	"klocctl/kw"
+	"github.com/benemenda/klocctl/kw"
 	"os"
 
 	"github.com/spf13/cobra"

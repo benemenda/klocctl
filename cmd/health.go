@@ -17,7 +17,7 @@ package cmd
 
 import (
 	"fmt"
-	"klocctl/config"
+	"github.com/benemenda/klocctl/config"
 	"os"
 	"text/template"
 

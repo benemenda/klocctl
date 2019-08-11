@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"os"
 
-	"klocctl/config"
+	"github.com/benemenda/klocctl/config"
 
 	"github.com/spf13/cobra"
 

@@ -15,8 +15,8 @@ limitations under the License.
 */
 package main
 
-import "klocctl/cmd"
+import "github.com/benemenda/klocctl/cmd"
 
 func main() {
-  cmd.Execute()
+	cmd.Execute()
 }
