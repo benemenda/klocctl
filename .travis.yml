@@ -1,1 +1,8 @@
 language: go
+
+# before_script:
+#   - go get -t -v ./...
+
+# script:
+#   - go install
+#   - go build -o klocctl main.go
