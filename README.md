@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/benemenda/klocctl.svg?branch=master)](https://travis-ci.org/benemenda/klocctl)
+
 # klocctl
 Build:
 
@@ -38,6 +40,8 @@ git clone URL --bare
 
 ---
 
-Example Repo where Cobra and Viper are used brilliantly: https://github.com/jgsqware/clairctl/
+Example Repo where Cobra and Viper is used well: https://github.com/jgsqware/clairctl/
+
+Updating the .travis.yml for go: https://docs.travis-ci.com/user/languages/go/
 
 
