@@ -1,6 +1,9 @@
-all: build run
+all: build run clean
 
 build:
+	go install
 	go build -o klocctl main.go
 run:
-	./klocctl --config klocctl.yaml config print
+	./klocctl -h
+clean:
+	go clean
