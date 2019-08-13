@@ -97,28 +97,20 @@ func ReceiveRequest(verb, command string, args []string) []string {
 		case "issues":
 			getIssues(args)
 		}
-	case "rename":
+	case "update":
 		projectNames := getProjects(body, "projects")
 		switch command {
-		case "builds":
-			if projectNames != nil {
-				renameBuilds(projectNames)
-			}
-		case "build":
-			//TODO: checkBuildExists
-			if checkProjectExists(args[0], projectNames) {
-				renameBuild(args)
-			}
-		}
-	case "update":
-		switch command {
 		case "status":
-			projectNames := getProjects(body, "projects")
 			for _, proj := range projectNames {
 				//valid project so try to update status
 				if args[0] == proj {
 					updateStatus(args)
 				}
+			}
+		case "build":
+			//TODO: checkBuildExists
+			if checkProjectExists(args[0], projectNames) {
+				updateBuild(args)
 			}
 		}
 	}

@@ -18,7 +18,6 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/benemenda/klocctl/kw"
 	"github.com/spf13/cobra"
 )
 
@@ -37,18 +36,6 @@ var renameCmd = &cobra.Command{
 		// if args[0] == "builds" {
 		// 	kw.ReceiveRequest("rename", "builds", nil)
 		// }
-	},
-}
-
-// cmdBuild represents the build command
-var cmdBuild = &cobra.Command{
-	Use:   "build [project] [current name] [new name]",
-	Short: "Used to rename the specified build from the specified Klocwork project.",
-	Long:  `Used to rename the specified from the specified Klocwork project.`,
-	Args:  cobra.MinimumNArgs(3),
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("rename build called")
-		kw.ReceiveRequest("rename", "build", args)
 	},
 }
 

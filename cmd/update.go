@@ -66,6 +66,19 @@ var cmdStatus = &cobra.Command{
 	},
 }
 
+
+// cmdBuild represents the build command
+var cmdBuild = &cobra.Command{
+	Use:   "build [project] [current name] [new name]",
+	Short: "Used to rename the specified build from the specified Klocwork project.",
+	Long:  `Used to rename the specified from the specified Klocwork project.`,
+	Args:  cobra.MinimumNArgs(3),
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("update build called")
+		kw.ReceiveRequest("update", "build", args)
+	},
+}
+
 func init() {
 	rootCmd.AddCommand(updateCmd)
 
@@ -75,7 +88,7 @@ func init() {
 	// and all subcommands, e.g.:
 	// updateCmd.PersistentFlags().String("foo", "", "A help for foo")
 	//updateCmd.PersistentFlags().String("status", "s", "update status of an issue")
-	updateCmd.AddCommand(cmdStatus)
+	updateCmd.AddCommand(cmdStatus, cmdBuild)
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// updateCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
