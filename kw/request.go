@@ -70,6 +70,15 @@ type Vertex struct {
 	Lat, Long float64
 }
 
+func checkProjectExists(project string, projectNames []string) bool {
+	for _, proj := range projectNames {
+		if project == proj {
+			return true
+		}
+	}
+	return false
+}
+
 /*
 Receives some CLI-based request requiring data from the Klocwork server.
 */
@@ -94,6 +103,11 @@ func ReceiveRequest(verb, command string, args []string) []string {
 		case "builds":
 			if projectNames != nil {
 				renameBuilds(projectNames)
+			}
+		case "build":
+			//TODO: checkBuildExists
+			if checkProjectExists(args[0], projectNames) {
+				renameBuild(args)
 			}
 		}
 	case "update":

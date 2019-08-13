@@ -17,9 +17,8 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/benemenda/klocctl/kw"
-	"os"
 
+	"github.com/benemenda/klocctl/kw"
 	"github.com/spf13/cobra"
 )
 
@@ -28,19 +27,40 @@ var renameCmd = &cobra.Command{
 	Use:   "rename",
 	Short: "Used to rename resources (e.g. projects, builds) from the configured Klocwork server.",
 	Long:  `Used to rename resources (e.g. projects, builds) from the configured Klocwork server.`,
+	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("rename called")
-		if len(args) < 1 {
-			fmt.Printf("klocctl: \"rename\" requires a minimum of 1 argument\n")
-			os.Exit(1)
-		}
-		if args[0] == "builds" {
-			kw.ReceiveRequest("rename", "builds", nil)
-		}
+		// if len(args) < 1 {
+		// 	fmt.Printf("klocctl: \"rename\" requires a minimum of 1 argument\n")
+		// 	os.Exit(1)
+		// }
+		// if args[0] == "builds" {
+		// 	kw.ReceiveRequest("rename", "builds", nil)
+		// }
+	},
+}
+
+// cmdBuild represents the build command
+var cmdBuild = &cobra.Command{
+	Use:   "build [project] [current name] [new name]",
+	Short: "Used to rename the specified build from the specified Klocwork project.",
+	Long:  `Used to rename the specified from the specified Klocwork project.`,
+	Args:  cobra.MinimumNArgs(3),
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("rename build called")
+		kw.ReceiveRequest("rename", "build", args)
+		// if len(args) < 1 {
+		// 	fmt.Printf("klocctl: \"rename build\" requires a minimum of 3 argument\n")
+		// 	os.Exit(1)
+		// }
+		// if args[0] == "build" {
+		// 	kw.ReceiveRequest("rename", "build", args)
+		// }
 	},
 }
 
 func init() {
+	renameCmd.AddCommand(cmdBuild)
 	rootCmd.AddCommand(renameCmd)
 
 	// Here you will define your flags and configuration settings.
