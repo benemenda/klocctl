@@ -49,13 +49,6 @@ var cmdBuild = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("rename build called")
 		kw.ReceiveRequest("rename", "build", args)
-		// if len(args) < 1 {
-		// 	fmt.Printf("klocctl: \"rename build\" requires a minimum of 3 argument\n")
-		// 	os.Exit(1)
-		// }
-		// if args[0] == "build" {
-		// 	kw.ReceiveRequest("rename", "build", args)
-		// }
 	},
 }
 
