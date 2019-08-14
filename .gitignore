@@ -1,3 +1,4 @@
 *.exe
 coverage.txt
 coverage.html
+callgraphs
