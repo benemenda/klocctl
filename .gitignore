@@ -2,3 +2,4 @@
 coverage.txt
 coverage.html
 callgraphs
+klocctl

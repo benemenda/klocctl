@@ -88,7 +88,7 @@ search result limit
 summary
 include summary record to output stream
 */
-func getIssues(args []string) {
+func getIssues(args []string) []byte {
 	data, klocworkURL := formBaseRequest("search")
 	project := args[0]
 	data.Set("project", project)
@@ -100,5 +100,7 @@ func getIssues(args []string) {
 		fmt.Println("Retrieving all issues for project " + project)
 	}
 	//Send it
-	sendRequest(klocworkURL, data)
+	_, body := sendRequest(klocworkURL, data)
+
+	return body
 }

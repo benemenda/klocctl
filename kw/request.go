@@ -95,7 +95,8 @@ func ReceiveRequest(verb, command string, args []string) []string {
 		case "builds":
 			getBuilds(args)
 		case "issues":
-			getIssues(args)
+			issueJSON := getIssues(args)
+			processIssues(issueJSON)
 		}
 	case "update":
 		projectNames := getProjects(body, "projects")
