@@ -4,3 +4,6 @@ klocctl:
     protocol: http
     #user: <klocwork-user>
     #ltoken: <klocwork-ltoken>
+    prometheus: 
+        host: localhost
+        port: 9090

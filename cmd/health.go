@@ -17,9 +17,10 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/benemenda/klocctl/config"
 	"os"
 	"text/template"
+
+	"github.com/benemenda/klocctl/config"
 
 	"github.com/spf13/cobra"
 )
@@ -28,8 +29,18 @@ const healthTplt = `
 klocwork: {{if .}}✔{{else}}✘{{end}}
 `
 
+const healthTpltProm = `
+prometheus: {{if .}}✔{{else}}✘{{end}}
+`
+
+var Prometheus bool
+
 type health struct {
 	Klocwork interface{} `json:"klocwork"`
+}
+
+type prometheusHealth struct {
+	Prometheus interface{} `json:"prometheus"`
 }
 
 // healthCmd represents the health command
@@ -44,13 +55,20 @@ var healthCmd = &cobra.Command{
 		if err != nil {
 			fmt.Println(err)
 		}
+		if Prometheus {
+			ok := config.IsHealthyProm()
+			err := template.Must(template.New("prometheusHealth").Parse(healthTpltProm)).Execute(os.Stdout, ok)
+			if err != nil {
+				fmt.Println(err)
+			}
+		}
 
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(healthCmd)
-
+	healthCmd.PersistentFlags().BoolVarP(&Prometheus, "prometheus", "p", false, "Also check health of a Prometheus server")
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command

@@ -17,6 +17,8 @@ package cmd
 
 import (
 	"fmt"
+
+	"github.com/benemenda/klocctl/config"
 	"github.com/benemenda/klocctl/kw"
 
 	"github.com/spf13/cobra"
@@ -66,13 +68,25 @@ var cmdIssues = &cobra.Command{
 	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Printf("get issues called")
-		kw.ReceiveRequest("get", "issues", args)
+		if config.IsHealthy() {
+			kw.ReceiveRequest("get", "issues", args)
+		}
+	},
+}
+
+var cmdLicenseUsage = &cobra.Command{
+	Use:   "license-usage",
+	Short: "get the current license usage for a specified klocwork server from data stored in Prometheus",
+	Long:  `get the current license usage for a specified klocwork server from data stored in Prometheus`,
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Printf("get license usage called")
+		kw.ReceiveRequest("get", "license-usage", args)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(getCmd)
-	getCmd.AddCommand(cmdProjects, cmdBuilds, cmdIssues)
+	getCmd.AddCommand(cmdProjects, cmdBuilds, cmdIssues, cmdLicenseUsage)
 	//cmdIssues.PersistentFlags().StringVarP(&queryString, "query", "q", "", "search query to filter issues by")
 
 	// Here you will define your flags and configuration settings.

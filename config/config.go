@@ -16,6 +16,7 @@ var protocol string
 var user string
 var ltoken string
 var url string
+var urlProm string
 
 type klocworkConfig struct {
 	host     string
@@ -25,8 +26,14 @@ type klocworkConfig struct {
 	ltoken   string
 }
 
+type prometheusConfig struct {
+	host string
+	port string
+}
+
 type config struct {
-	Klocwork klocworkConfig
+	Klocwork   klocworkConfig
+	Prometheus prometheusConfig
 }
 
 func fmtURL(host, port, protocol string) string {
@@ -50,6 +57,9 @@ func values() config {
 			user:     viper.GetString("klocctl.user"),
 			ltoken:   viper.GetString("klocctl.ltoken"),
 		},
+		Prometheus: prometheusConfig{
+			host: viper.GetString("klocctl.prometheus.host"),
+		},
 	}
 }
 
@@ -57,6 +67,7 @@ func Print() {
 	cfg := values()
 	fmt.Println("KW Configuration:")
 	fmt.Printf("%v \n", cfg.Klocwork)
+	fmt.Printf("%v \n", cfg.Prometheus)
 	kw.ReceiveRequest("get", "builds", nil)
 
 }
@@ -94,6 +105,12 @@ func Init(cfgFile string) {
 	if viper.Get("klocctl.protocol") == nil {
 		viper.Set("klocctl.protocol", "http")
 	}
+	if viper.Get("klocctl.prometheus.host") == nil {
+		viper.Set("klocctl.prometheus.host", "localhost")
+	}
+	if viper.Get("klocctl.prometheus.port") == nil {
+		viper.Set("klocctl.prometheus.port", "9090")
+	}
 }
 
 func Config() {
@@ -103,4 +120,5 @@ func Config() {
 	user = viper.GetString("klocctl.user")
 	ltoken = viper.GetString("klocctl.ltoken")
 	url = fmtURL(host, port, protocol)
+	urlProm = fmtURL(viper.GetString("klocctl.prometheus.host"), viper.GetString("klocctl.prometheus.port"), protocol)
 }

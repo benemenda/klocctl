@@ -4,3 +4,6 @@ klocctl:
     host: localhost
     protocol: http
     user: ben
+    prometheus: 
+        host: localhost
+        port: 9090
